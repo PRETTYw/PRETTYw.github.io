@@ -1,0 +1,116 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="newblog design by hexo"><title>Generator函数 及 Generator 函数的异步应用 及 async 函数 | PRETTYw</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 5.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Generator函数 及 Generator 函数的异步应用 及 async 函数</h1><a id="logo" href="/.">PRETTYw</a><p class="description">Get a life and Move on</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/tags/"><i class="fa fa-tag"> 标签</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Generator函数 及 Generator 函数的异步应用 及 async 函数</h1><div class="post-meta">2020-08-07<span> | </span><span class="category"><a href="/categories/technology/">technology</a></span></div><a class="disqus-comment-count" data-disqus-identifier="2020/08/07/Generator函数 及 Generator 函数的异步应用 及 async 函数/" href="/2020/08/07/Generator%E5%87%BD%E6%95%B0%20%E5%8F%8A%20Generator%20%E5%87%BD%E6%95%B0%E7%9A%84%E5%BC%82%E6%AD%A5%E5%BA%94%E7%94%A8%20%E5%8F%8A%20async%20%E5%87%BD%E6%95%B0/#disqus_thread"></a><div class="post-content"><ul>
+<li>Generator (生成器  /  状态机 ) 是 ES6 提供的一种异步编程解决方案</li>
+<li>执行Generator 函数会返回一个遍历器对象 可以依次遍历 Generator 函数内部的每一个状态</li>
+<li>Generator 函数的两个特征</li>
+</ul>
+<ol>
+<li>function关键字与函数名之间有一个星号</li>
+<li>函数体内部使用yield表达式，定义不同的内部状态</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">helloWorldGenerator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">&#x27;hello&#x27;</span>;</span><br><span class="line">  <span class="keyword">yield</span> <span class="string">&#x27;world&#x27;</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;ending&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> fn = helloWorldGenerator();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 写法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> * <span class="title">foo</span>(<span class="params">x, y</span>) </span>&#123; ··· &#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> *<span class="title">foo</span>(<span class="params">x, y</span>) </span>&#123; ··· &#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">foo</span>(<span class="params">x, y</span>) </span>&#123; ··· &#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>*<span class="title">foo</span>(<span class="params">x, y</span>) </span>&#123; ··· &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>调用 Generator 函数后 函数并不执行 返回一个指向内部状态的指针对象 也就是Iterator （迭代器 / 遍历器）</li>
+<li>Generator 函数是分段执行的，yield表达式是暂停执行的标记，而next方法可以恢复执行。</li>
+<li>每次调用遍历器对象的next方法 返回一个有着value和done两个属性的对象。<blockquote>
+<p>value属性表示当前的内部状态的值，是yield表达式后面那个表达式的值。<br>done属性是一个布尔值，表示是否遍历结束。</p>
+</blockquote>
+</li>
+<li>next方法可以带一个参数，该参数就会被当作上一个yield表达式的返回值。</li>
+<li>for…of循环可以自动遍历 Generator 函数运行时生成的Iterator对象</li>
+<li>next()是将yield表达式替换成一个值。</li>
+<li>throw()是将yield表达式替换成一个throw语句。</li>
+<li>return()是将yield表达式替换成一个return语句。</li>
+</ul>
+<h2 id="传统异步编程方式"><a href="#传统异步编程方式" class="headerlink" title="传统异步编程方式"></a>传统异步编程方式</h2><ol>
+<li>回调函数 （callbcak）</li>
+</ol>
+<ul>
+<li>把任务的第二段单独写在一个函数里面，等到重新执行这个任务的时候，就直接调用这个函数</li>
+<li>回调函数的第一个参数，必须是错误对象err（如果没有错误，该参数就是null）</li>
+<li>回调函数地狱：多个回调函数嵌套 形成强耦合，只要有一个操作需要修改，它的上层回调函数和下层回调函数，可能都要跟着修改</li>
+</ul>
+<ol start="2">
+<li>事件监听</li>
+<li>发布 / 订阅模式</li>
+<li>Promise对象</li>
+</ol>
+<ul>
+<li>是为了解决回调地狱 一种新的写法 允许将回调函数的嵌套改成链式调用</li>
+<li>问题是代码冗余</li>
+</ul>
+<h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><ul>
+<li>协程有点像函数，又有点像线程。它的运行流程大致如下。<blockquote>
+<p>第一步，协程A开始执行。<br>第二步，协程A执行到一半，进入暂停，执行权转移到协程B。<br>第三步，（一段时间后）协程B交还执行权。<br>第四步，协程A恢复执行。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="Generator-函数的异步应用"><a href="#Generator-函数的异步应用" class="headerlink" title="Generator 函数的异步应用"></a>Generator 函数的异步应用</h2><ul>
+<li>Generator 函数是协程在 ES6 的实现，最大特点就是可以交出函数的执行权（即暂停执行）。</li>
+<li>整个 Generator 函数就是一个封装的异步任务，或者说是异步任务的容器。异步操作需要暂停的地方，都用yield语句注明</li>
+<li>ES2017 标准引入了 async 函数，使得异步操作变得更加方便</li>
+<li>async 函数是 Generator 函数的语法糖</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Generator 函数实现异步函数：：：：</span></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> readFile = <span class="function"><span class="keyword">function</span> (<span class="params">fileName</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span> (<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    fs.readFile(fileName, <span class="function"><span class="keyword">function</span>(<span class="params">error, data</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (error) <span class="keyword">return</span> reject(error);</span><br><span class="line">      resolve(data);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> gen = <span class="function"><span class="keyword">function</span>* (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> f1 = <span class="keyword">yield</span> readFile(<span class="string">&#x27;/etc/fstab&#x27;</span>);</span><br><span class="line">  <span class="keyword">const</span> f2 = <span class="keyword">yield</span> readFile(<span class="string">&#x27;/etc/shells&#x27;</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(f1.toString());</span><br><span class="line">  <span class="built_in">console</span>.log(f2.toString());</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// async 实现异步函数：：：：</span></span><br><span class="line"><span class="keyword">const</span> asyncReadFile = <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> f1 = <span class="keyword">await</span> readFile(<span class="string">&#x27;/etc/fstab&#x27;</span>);</span><br><span class="line">  <span class="keyword">const</span> f2 = <span class="keyword">await</span> readFile(<span class="string">&#x27;/etc/shells&#x27;</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(f1.toString());</span><br><span class="line">  <span class="built_in">console</span>.log(f2.toString());</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// async函数就是将 Generator 函数的星号（*）替换成async，将yield替换成await</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>async函数返回一个 Promise 对象。</li>
+<li>async函数内部return语句返回的值，会成为then方法回调函数的参数。</li>
+<li>async函数内部抛出错误，会导致返回的 Promise 对象变为reject状态。抛出的错误对象会被catch方法回调函数接收到。</li>
+<li>只有async函数内部的异步操作执行完，才会执行then方法指定的回调函数。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">await</span> somethingThatReturnsAPromise();</span><br><span class="line">  &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(err);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 另一种写法</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">myFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">await</span> somethingThatReturnsAPromise()</span><br><span class="line">  .catch(<span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(err);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>#博客笔记/ES6</p>
+</div><div id="donate"><link rel="stylesheet" type="text/css" href="/css/donate.css"><script type="text/javascript" src="/js/donate.js" successtext="复制成功!"></script><a class="pos-f tr3" id="github" target="_blank" rel="noopener" href="https://github.com/Kaiyuan/donate-page" arget="_blank" title="Github"></a><div id="DonateText">Donate</div><ul class="list pos-f" id="donateBox"><li id="ps">没有开启任何Donate选项!</li></ul><div class="pos-f left-100" id="QRBox"><div id="MainBox"></div></div></div><div class="tags"><a href="/tags/ES6/"><i class="fa fa-tag"></i>ES6</a></div><div class="post-nav"><a class="pre" href="/2020/08/15/Promise%E5%AF%B9%E8%B1%A1%20Iterator%20%E5%92%8C%20for%20of/">Promise对象 Iterator 和 for of</a><a class="next" href="/2020/08/02/class%E8%AF%AD%E6%B3%95%20%E5%8F%8A%20class%E7%9A%84%E7%BB%A7%E6%89%BF/">class语法 及 class的继承</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论（请确保 Disqus 可以正常加载）</button></div><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'https://prettyw.github.io/2020/08/07/Generator函数 及 Generator 函数的异步应用 及 async 函数/';
+    this.page.identifier = '2020/08/07/Generator函数 及 Generator 函数的异步应用 及 async 函数/';
+    this.page.title = 'Generator函数 及 Generator 函数的异步应用 及 async 函数';
+  };</script><script type="text/javascript" id="disqus-lazy-load-script">$.ajax({
+url: 'https://disqus.com/next/config.json',
+timeout: 2500,
+type: 'GET',
+success: function(){
+  var d = document;
+  var s = d.createElement('script');
+  s.src = '//prettyw.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', + new Date());
+  (d.head || d.body).appendChild(s);
+  $('.disqus_click_btn').css('display', 'none');
+},
+error: function() {
+  $('.disqus_click_btn').css('display', 'block');
+}
+});</script><script type="text/javascript" id="disqus-click-load">$('.btn_click_load').click(() => {  //click to load comments
+    (() => { // DON'T EDIT BELOW THIS LINE
+        var d = document;
+        var s = d.createElement('script');
+        s.src = '//prettyw.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', + new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+    $('.disqus_click_btn').css('display','none');
+});</script><script type="text/javascript" id="disqus-count-script">$(function() {
+     var xhr = new XMLHttpRequest();
+     xhr.open('GET', '//disqus.com/next/config.json', true);
+     xhr.timeout = 2500;
+     xhr.onreadystatechange = function () {
+       if (xhr.readyState === 4 && xhr.status === 200) {
+         $('.post-meta .post-comments-count').show();
+         var s = document.createElement('script');
+         s.id = 'dsq-count-scr';
+         s.src = 'https://prettyw.disqus.com/count.js';
+         s.async = true;
+         (document.head || document.body).appendChild(s);
+       }
+     };
+     xhr.ontimeout = function () { xhr.abort(); };
+     xhr.send(null);
+   });
+</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="https://prettyw.github.io"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/emotion/">emotion</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E9%9A%94%E5%A3%81/">前端隔壁</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/11/15/vue%E4%B8%AD%E4%BD%BF%E7%94%A8fetch%E8%AF%B7%E6%B1%82%E6%95%B0%E6%8D%AE%E6%96%B9%E6%B3%95%E6%95%B4%E7%90%86/">vue中使用fetch请求数据方法整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/24/%E6%95%B4%E7%90%86VUE%E4%BC%A0%E5%80%BC%E6%96%B9%E5%BC%8F/">整理VUE传值方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/17/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B/">前端工程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/10/%E5%89%8D%E7%AB%AFSSR/">前端SSR</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/03/%E6%A1%86%E6%9E%B6%E6%A8%A1%E5%BC%8F%E4%BB%8B%E7%BB%8D/">框架模式介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/26/%E4%B8%80%E9%81%93%E5%85%B3%E4%BA%8EPromise%E7%9A%84%E9%A2%98/">一道关于Promise的题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/19/%E5%89%8D%E7%AB%AF%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80/">前端通信基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/13/%E5%B8%B8%E7%94%A8%E7%9A%84%E7%BB%88%E6%AD%A2%E7%AC%A6%E6%93%8D%E4%BD%9C/">常用的终止符操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/05/%E5%B8%B8%E8%A7%81%E5%BE%AA%E7%8E%AF%E6%AF%94%E8%BE%83/">常见循环比较</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/05/%E5%B8%B8%E7%94%A8%E7%9A%84JS%E4%BB%A3%E7%A0%81%E7%AE%80%E5%86%99/">常用的JS代码简写</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">PRETTYw.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

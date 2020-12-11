@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="newblog design by hexo"><title>正则表达式小记 | PRETTYw</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 5.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">正则表达式小记</h1><a id="logo" href="/.">PRETTYw</a><p class="description">Get a life and Move on</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/tags/"><i class="fa fa-tag"> 标签</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">正则表达式小记</h1><div class="post-meta">2017-08-10<span> | </span><span class="category"><a href="/categories/technology/">technology</a></span></div><a class="disqus-comment-count" data-disqus-identifier="2017/08/10/正则表达式小记/" href="/2017/08/10/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%B0%8F%E8%AE%B0/#disqus_thread"></a><div class="post-content"><p>平时会看到很多匹配规则，但是没有仔细去研究，有时候写html有些表格内容需要定制，总去网上找确实麻烦，然后就在慕课网学了篇关于正则表达式的课程，下面记录一下正则表达式的基本规则，防止忘记~</p>
+<h4 id="开篇"><a href="#开篇" class="headerlink" title="开篇"></a>开篇</h4><p>使用正则表达式可以在IDE中处理规则复杂的字符串查找、替换需求 （比如   .find./-name*.txt   就是在当前目录下查找所有的TXT文件），也可以在JavaScript程序设计中使用正则表达式处理字符串，以及定制一些自己想要的匹配需求。</p>
+<p>正则表达式英文名称：Regular Expression ，主要是使用单个字符串来描述、匹配一系列符合某个句法规则的字符串（按照某种规则去匹配符合条件的字符串）</p>
+<p>JavaScript通过内置对象regexp支持正则表达式，有两种方式实例化regexp对象：字面量和构造函数</p>
+<blockquote>
+<p>第一种<br>var reg=/\bis\b/;<br>‘He is a boy. This is a dog.Where is she?’.replace(reg,’IS’)<br>输出结果是：”He IS a boy.This is a dog.Wherre is she?”<br>var reg=/\bis\b/g;<br>‘He is a boy. This is a dog.Where is she?’.replace(reg,’IS’)<br>输出结果是：”He IS a boy.This IS a dog.Wherre IS she?”</p>
+</blockquote>
+<blockquote>
+<p>第二种<br>var reg=new RegExp(‘\bis\b’);<br>‘He is a boy. This is a dog.Where is she?’.replace(reg,’IS’)<br>输出结果是：”He IS a boy.This is a dog.Wherre is she?”<br>var reg=new RegExp(‘\bis\b’ ‘g’);<br>‘He is a boy. This is a dog.Where is she?’.replace(reg,’IS’)<br>输出结果是：”He IS a boy.This IS a dog.Wherre IS she?”**</p>
+</blockquote>
+<blockquote>
+<p>第三种<br>‘He is a boy.Is he?’.replace(/\bis\b/g,’0’)<br>输出结果是：”He 0 a boy.0 he?”</p>
+</blockquote>
+<h6 id="正则表达式的详细介绍"><a href="#正则表达式的详细介绍" class="headerlink" title="正则表达式的详细介绍"></a>正则表达式的详细介绍</h6><p>正则表达式有三个修饰符：g（global） 表示全文搜索，如果不添加的话，默认匹配完第一个就会停止；i（ignore case）表示忽略大小写，默认大小写是敏感的；m（multiple lines） 表示多行搜索，默认匹配当前行。</p>
+<p>对象属性除了上面三个外还有lastIndex：是当前表达式匹配内容的最后一个字符的下一个位置；source：正则表达式的文本字符串</p>
+<p>正则表达式由两种基本字符类型组成：原义文本字符和元字符； 元字符是在正则表达式中有特殊含义的非字母字符</p>
+<blockquote>
+<p>\t 表示水平制表符<br>\t 表示垂直制表符<br>\n 表示换行符<br>\r 表示回车符<br>\o 表示空字符<br>\f 表示换页符<br>\cX 表示与X对应的控制字符（ctrl+X）</p>
+</blockquote>
+<p>我们使用元字符[]来构建一个简单的类，而所谓的类是指符合某些特性的对象，是泛指，不是特指某个字符；（表达式[abc]把字符a或b或c归为一类，表达式可以匹配到这类的字符）；</p>
+<p>字符串取反加上^（表达式[^abc]表示不是字符a或b或c的内容）；</p>
+<p>正则表达式提供了范围类：我们使用 [a-zA-Z]表示包括大小写的字母匹配，是个闭区间；</p>
+<p>正则表达式提供了预定义类来匹配常见的字符:</p>
+<blockquote>
+<p>( 字符. 等价类为 [^\r\n] 含义是除了回车符和换行符之外的所有字符 )<br>( 字符\d 等价类为 [0-9] 含义是数字字符 )<br>( 字符\D 等价类为 [^0-9] 含义是非数字字符 )<br>( 字符\s 等价类为 [\t\n\xOB\f\r] 含义是空白字符 )<br>( 字符\S 等价类为 [^\t\n\xOB\f\r] 含义是非空白字符字符 )<br>( 字符\w 等价类为 [a-zA-Z_0-9] 含义是单词字符 )<br>( 字符\W 等价类为 [^a-zA-Z_0-9] 含义是非单词字符 )<br>从上面也可以看出正则的大小写很重要，同时，正则表达式还提供了几个常用的边界匹配字符<br>字符^表示以XXX开始<br>字符$表示以XXX结束<br>字符\b表示单词边界<br>字符\B表示非单词边界<br>字符？表示出现零次或一次（最多出现一次）<br>字符+表示出现一次或多次（至少出现一次）<br>字符*表示出现零次或多次（任意次）<br>字符{n}表示出现n次<br>字符{n,m}表示出现n到m次<br>字符{n,}表示至少出现n次</p>
+</blockquote>
+<p>正则表达式有个贪婪模式，就是如果你想匹配一个数字出现3-6次，那在匹配的时候，它一定是按6次匹配的，就是想要尽可能的多匹配：</p>
+<blockquote>
+<p>‘12345678’.replace(/\d{3,6}/g,’X’)<br>结果是”X78”</p>
+</blockquote>
+<p>但是有时候我们不想要贪婪模式的匹配结果，为了让正则表达式尽可能少的匹配，也就是说一旦成功匹配后就不再继续尝试，这就是非贪婪模式，做法是只要在量词后面加上?即可：</p>
+<blockquote>
+<p>‘123456789’.match(/\d{3,5}?/g)<br>结果是[“123”,”456”,”789”]</p>
+</blockquote>
+<p>如果我们想匹配一个字符串wang连续出现三次的情况，正则表达式也提供了量词供我们使用，(wang){3},但是如果不加()，量词只会关心紧挨着它的单词，也就是匹配3次g，所以记得加上具有分组功能的(),使用|可以达到或的效果，我们可以使用$123来当作变量，匹配某些反向引用的问题：</p>
+<blockquote>
+<p>假如我们想把 2017-08-11 匹配换成 08/11/2017<br>‘2017-08-11’.replace(/(\d{4}-(\d{2})-(\d{2})/g,’$2/$3/$1’)<br>如果我们不希望捕获某些分组，只需要在分组内加上?:就可以了(?:wang)</p>
+</blockquote>
+<p>正则表达式从文本头部向尾部开始解析，文本尾部方向称为”前”，前瞻就是在正则表达式匹配到规则的时候，向前检查是否符合断言，后顾/后瞻方向相反，JavaScript不支持后顾，符合和不符合特定断言称为肯定/正向匹配和否定/负向匹配</p>
+<p>正则表达式有个方法：<br>1：RegExp.prototype.test(str) 用于测试字符串参数中是否存在匹配正则表达式模式的字符串，如果存在返回true，否则返回false<br>2：RegExp.prototype.exec(str) 使用正则表达式模式对字符串执行搜索，并将更新全局RegExp对象的属性以反映匹配结果，如果没有匹配的文本则返回null，否则返回一个结果数组：index声明匹配文本的第一个字符的位置，input存放被检索的字符串string；<br>3：String.prototype.search(reg) search()方法用于检索字符串中指定的子字符串，或检索与正则表达式相匹配的子字符串，方法返回第一个匹配结果index，查找不到返回-1，search()方法不执行全局匹配，它忽略g标志，并且总是从字符串的开始开始检索；<br>4：String.prototype.match(reg) match()方法将检索字符串，，以找到一个或多个与regexp匹配的文本，regexp是否具有标志g对结果影响很大；<br>5：String.prototype.split(reg) 使用split方法把字符串分割为字符数组，而在一些复杂的情况下我们可以使用正则表达式解决；<br>6：String.prototype.replace 方法有三种传参方式</p>
+<blockquote>
+<p>String.prototype.replace(str,replaceStr)<br>String.prototype.replace(reg,replaceStr)<br>String.prototype.replace(reg,function)<br>function会在每次匹配替换的时候调用，传四个参数，分别是：匹配的字符串、正则表达式分组内容，没有分组则没有该参数、匹配项在字符串中的index和原字符串；</p>
+</blockquote>
+<h6 id="有关参考链接"><a href="#有关参考链接" class="headerlink" title="有关参考链接"></a>有关参考链接</h6><blockquote>
+<p><a target="_blank" rel="noopener" href="http://regexper.com/">http://regexper.com</a> 正则表达式工具<br><a target="_blank" rel="noopener" href="http://www.runoob.com/regexp/regexp-syntax.html">http://www.runoob.com/regexp/regexp-syntax.html</a> 正则表达式语法</p>
+</blockquote>
+</div><div id="donate"><link rel="stylesheet" type="text/css" href="/css/donate.css"><script type="text/javascript" src="/js/donate.js" successtext="复制成功!"></script><a class="pos-f tr3" id="github" target="_blank" rel="noopener" href="https://github.com/Kaiyuan/donate-page" arget="_blank" title="Github"></a><div id="DonateText">Donate</div><ul class="list pos-f" id="donateBox"><li id="ps">没有开启任何Donate选项!</li></ul><div class="pos-f left-100" id="QRBox"><div id="MainBox"></div></div></div><div class="tags"><a href="/tags/RegExp/"><i class="fa fa-tag"></i>RegExp</a></div><div class="post-nav"><a class="pre" href="/2017/08/16/%E8%AF%BB(%E5%86%99%E7%BB%99%E5%A4%A7%E5%AE%B6%E7%9C%8B%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B9%A6)%E5%90%8E%E8%AE%B0/">读《写给大家看的设计书》后记</a><a class="next" href="/2017/07/15/hexo%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/">hexo搭建自己的博客</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论（请确保 Disqus 可以正常加载）</button></div><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'https://prettyw.github.io/2017/08/10/正则表达式小记/';
+    this.page.identifier = '2017/08/10/正则表达式小记/';
+    this.page.title = '正则表达式小记';
+  };</script><script type="text/javascript" id="disqus-lazy-load-script">$.ajax({
+url: 'https://disqus.com/next/config.json',
+timeout: 2500,
+type: 'GET',
+success: function(){
+  var d = document;
+  var s = d.createElement('script');
+  s.src = '//prettyw.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', + new Date());
+  (d.head || d.body).appendChild(s);
+  $('.disqus_click_btn').css('display', 'none');
+},
+error: function() {
+  $('.disqus_click_btn').css('display', 'block');
+}
+});</script><script type="text/javascript" id="disqus-click-load">$('.btn_click_load').click(() => {  //click to load comments
+    (() => { // DON'T EDIT BELOW THIS LINE
+        var d = document;
+        var s = d.createElement('script');
+        s.src = '//prettyw.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', + new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+    $('.disqus_click_btn').css('display','none');
+});</script><script type="text/javascript" id="disqus-count-script">$(function() {
+     var xhr = new XMLHttpRequest();
+     xhr.open('GET', '//disqus.com/next/config.json', true);
+     xhr.timeout = 2500;
+     xhr.onreadystatechange = function () {
+       if (xhr.readyState === 4 && xhr.status === 200) {
+         $('.post-meta .post-comments-count').show();
+         var s = document.createElement('script');
+         s.id = 'dsq-count-scr';
+         s.src = 'https://prettyw.disqus.com/count.js';
+         s.async = true;
+         (document.head || document.body).appendChild(s);
+       }
+     };
+     xhr.ontimeout = function () { xhr.abort(); };
+     xhr.send(null);
+   });
+</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="https://prettyw.github.io"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/emotion/">emotion</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E9%9A%94%E5%A3%81/">前端隔壁</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/11/15/vue%E4%B8%AD%E4%BD%BF%E7%94%A8fetch%E8%AF%B7%E6%B1%82%E6%95%B0%E6%8D%AE%E6%96%B9%E6%B3%95%E6%95%B4%E7%90%86/">vue中使用fetch请求数据方法整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/24/%E6%95%B4%E7%90%86VUE%E4%BC%A0%E5%80%BC%E6%96%B9%E5%BC%8F/">整理VUE传值方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/17/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B/">前端工程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/10/%E5%89%8D%E7%AB%AFSSR/">前端SSR</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/03/%E6%A1%86%E6%9E%B6%E6%A8%A1%E5%BC%8F%E4%BB%8B%E7%BB%8D/">框架模式介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/26/%E4%B8%80%E9%81%93%E5%85%B3%E4%BA%8EPromise%E7%9A%84%E9%A2%98/">一道关于Promise的题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/19/%E5%89%8D%E7%AB%AF%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80/">前端通信基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/13/%E5%B8%B8%E7%94%A8%E7%9A%84%E7%BB%88%E6%AD%A2%E7%AC%A6%E6%93%8D%E4%BD%9C/">常用的终止符操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/05/%E5%B8%B8%E8%A7%81%E5%BE%AA%E7%8E%AF%E6%AF%94%E8%BE%83/">常见循环比较</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/05/%E5%B8%B8%E7%94%A8%E7%9A%84JS%E4%BB%A3%E7%A0%81%E7%AE%80%E5%86%99/">常用的JS代码简写</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">PRETTYw.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

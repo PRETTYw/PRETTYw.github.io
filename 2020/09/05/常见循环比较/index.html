@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="newblog design by hexo"><title>常见循环比较 | PRETTYw</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 5.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">常见循环比较</h1><a id="logo" href="/.">PRETTYw</a><p class="description">Get a life and Move on</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/tags/"><i class="fa fa-tag"> 标签</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">常见循环比较</h1><div class="post-meta">2020-09-05<span> | </span><span class="category"><a href="/categories/technology/">technology</a></span></div><a class="disqus-comment-count" data-disqus-identifier="2020/09/05/常见循环比较/" href="/2020/09/05/%E5%B8%B8%E8%A7%81%E5%BE%AA%E7%8E%AF%E6%AF%94%E8%BE%83/#disqus_thread"></a><div class="post-content"><ul>
+<li>常见的各种循环主要作用于四种数据结构：Array Object Set Map</li>
+<li>数组和对象是基本数据类型 具体不介绍了</li>
+<li>set 和 map 是es6新增的数据结构类型</li>
+</ul>
+<ol>
+<li>set拥有以下特点和方法、属性<blockquote>
+<p>成员中的值是唯一的 不会重复<br>添加成员时 不会发生类型转换<br>添加的对象都不相等<br>size：返回成员总数<br>add 添加某个值，返回set本身<br>has 返回一个布尔值，表示该值是否为set成员</p>
+</blockquote>
+</li>
+</ol>
+<ul>
+<li>通常使用 <code>Array.from(new Set(arr))</code> 去重</li>
+<li>使用<code>arr=[…set]</code>或者<code>Array.from</code>  把set类型的数据转成数组</li>
+<li>set的遍历顺序就是插入顺序 set没有键名 只有键值 所有key方法和value方法返回的值一致</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//遍历全部的key</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">of</span> set.keys())&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(key);<span class="comment">//red,blue,green</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//遍历全部的value</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> value <span class="keyword">of</span> set.values())&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(value);<span class="comment">//red,blue,green</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//遍历全部的key和value</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> item <span class="keyword">of</span> set.entries())&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(item);</span><br><span class="line">  <span class="comment">//[&#x27;red&#x27;,&#x27;red&#x27;],[&#x27;blue&#x27;,&#x27;blue&#x27;],[&#x27;green&#x27;,&#x27;green&#x27;]</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>map拥有以下特点和方法、属性</li>
+</ol>
+<ul>
+<li>map是以键值对的形式存储数据 和对象差不多</li>
+<li>size：返回map结构的成员总数</li>
+<li>set(key,value)：设置键名key对应的键值value,然后返回整个map结构，如果key已经有值，则键值会被更新，否则就新生成该键</li>
+<li>get(key)：读取key对应的键值，如果找不到key,则返回undefined</li>
+<li>has(key)：返回一个布尔值，表示某个键是否在当前map对象中</li>
+<li>delete(key)：删除某个key,返回true,如果删除失败，返回false</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> map=<span class="keyword">new</span> <span class="built_in">Map</span>([</span><br><span class="line">    [<span class="number">1</span>,<span class="string">&#x27;one&#x27;</span>],</span><br><span class="line">    [<span class="number">2</span>,<span class="string">&#x27;two&#x27;</span>],</span><br><span class="line">    [<span class="number">3</span>,<span class="string">&#x27;three&#x27;</span>]</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line"><span class="comment">//遍历全部的键</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">of</span> map.keys())&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(key);<span class="comment">//1,2,3</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//遍历全部的值</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> values <span class="keyword">of</span> map.values())&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(values);<span class="comment">//a,b,c</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//遍历全部的键和值</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> [key,value] <span class="keyword">of</span> map.entries())&#123;</span><br><span class="line">   <span class="built_in">console</span>.log(key,value);<span class="comment">//1=&gt;a,2=&gt;b,3=&gt;c</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用<code>arr=[…set]</code>或者<code>Array.from</code> 把map类型的数据 转成数组</li>
+</ul>
+<h2 id="常见循环整理"><a href="#常见循环整理" class="headerlink" title="常见循环整理"></a>常见循环整理</h2><ol>
+<li>for 循环一般用于数组循环 <code>for(var I=0;i&lt;arr.length; I++) &#123;&#125;</code>  for循环对象时 对象只能是属性命名有一定规律的对象</li>
+<li>for in 在数组和对象的循环中都适用：<code>for(var I in arr)&#123;if(arr.hasOwnProperty(i))&#123;console.log(arr[i])&#125;&#125;</code> 循环方法会让对象本身或者原型链上的都会被循环出来 可以用hasOwnProperty 来过滤掉原型上的属性</li>
+<li>for of 在array object set map 中都可以使用</li>
+<li>for each 在array object set map 中都可以使用</li>
+</ol>
+<ul>
+<li>for用来循环数组 循环中可以使用return、break等来中断循环</li>
+<li>for each 对数组的每一个元素执行一次提供的函数（不能使用return、break等中断循环），不改变原数组，无返回值undefined。</li>
+<li>for in 循环遍历的值都是数据结构的键值 键名： o 键值： obj[o] 比较适合循环对象</li>
+<li>for of 循环获取一对键值对中的值 一个数据结构只有部署了 Symbol.iterator 属性, 才具有 iterator接口可以使用 for of循环<blockquote>
+<p>具有Symbol.iterator 属性的数据结构：：<br>数组 Array 、Map、Set、String、arguments对象</p>
+</blockquote>
+</li>
+</ul>
+<p>#博客笔记/JAVASCRIPT</p>
+</div><div id="donate"><link rel="stylesheet" type="text/css" href="/css/donate.css"><script type="text/javascript" src="/js/donate.js" successtext="复制成功!"></script><a class="pos-f tr3" id="github" target="_blank" rel="noopener" href="https://github.com/Kaiyuan/donate-page" arget="_blank" title="Github"></a><div id="DonateText">Donate</div><ul class="list pos-f" id="donateBox"><li id="ps">没有开启任何Donate选项!</li></ul><div class="pos-f left-100" id="QRBox"><div id="MainBox"></div></div></div><div class="tags"><a href="/tags/Javascript/"><i class="fa fa-tag"></i>Javascript</a></div><div class="post-nav"><a class="pre" href="/2020/09/13/%E5%B8%B8%E7%94%A8%E7%9A%84%E7%BB%88%E6%AD%A2%E7%AC%A6%E6%93%8D%E4%BD%9C/">常用的终止符操作</a><a class="next" href="/2020/09/05/%E5%B8%B8%E7%94%A8%E7%9A%84JS%E4%BB%A3%E7%A0%81%E7%AE%80%E5%86%99/">常用的JS代码简写</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论（请确保 Disqus 可以正常加载）</button></div><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'https://prettyw.github.io/2020/09/05/常见循环比较/';
+    this.page.identifier = '2020/09/05/常见循环比较/';
+    this.page.title = '常见循环比较';
+  };</script><script type="text/javascript" id="disqus-lazy-load-script">$.ajax({
+url: 'https://disqus.com/next/config.json',
+timeout: 2500,
+type: 'GET',
+success: function(){
+  var d = document;
+  var s = d.createElement('script');
+  s.src = '//prettyw.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', + new Date());
+  (d.head || d.body).appendChild(s);
+  $('.disqus_click_btn').css('display', 'none');
+},
+error: function() {
+  $('.disqus_click_btn').css('display', 'block');
+}
+});</script><script type="text/javascript" id="disqus-click-load">$('.btn_click_load').click(() => {  //click to load comments
+    (() => { // DON'T EDIT BELOW THIS LINE
+        var d = document;
+        var s = d.createElement('script');
+        s.src = '//prettyw.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', + new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+    $('.disqus_click_btn').css('display','none');
+});</script><script type="text/javascript" id="disqus-count-script">$(function() {
+     var xhr = new XMLHttpRequest();
+     xhr.open('GET', '//disqus.com/next/config.json', true);
+     xhr.timeout = 2500;
+     xhr.onreadystatechange = function () {
+       if (xhr.readyState === 4 && xhr.status === 200) {
+         $('.post-meta .post-comments-count').show();
+         var s = document.createElement('script');
+         s.id = 'dsq-count-scr';
+         s.src = 'https://prettyw.disqus.com/count.js';
+         s.async = true;
+         (document.head || document.body).appendChild(s);
+       }
+     };
+     xhr.ontimeout = function () { xhr.abort(); };
+     xhr.send(null);
+   });
+</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="https://prettyw.github.io"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/emotion/">emotion</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E9%9A%94%E5%A3%81/">前端隔壁</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/11/15/vue%E4%B8%AD%E4%BD%BF%E7%94%A8fetch%E8%AF%B7%E6%B1%82%E6%95%B0%E6%8D%AE%E6%96%B9%E6%B3%95%E6%95%B4%E7%90%86/">vue中使用fetch请求数据方法整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/24/%E6%95%B4%E7%90%86VUE%E4%BC%A0%E5%80%BC%E6%96%B9%E5%BC%8F/">整理VUE传值方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/17/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B/">前端工程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/10/%E5%89%8D%E7%AB%AFSSR/">前端SSR</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/03/%E6%A1%86%E6%9E%B6%E6%A8%A1%E5%BC%8F%E4%BB%8B%E7%BB%8D/">框架模式介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/26/%E4%B8%80%E9%81%93%E5%85%B3%E4%BA%8EPromise%E7%9A%84%E9%A2%98/">一道关于Promise的题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/19/%E5%89%8D%E7%AB%AF%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80/">前端通信基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/13/%E5%B8%B8%E7%94%A8%E7%9A%84%E7%BB%88%E6%AD%A2%E7%AC%A6%E6%93%8D%E4%BD%9C/">常用的终止符操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/05/%E5%B8%B8%E8%A7%81%E5%BE%AA%E7%8E%AF%E6%AF%94%E8%BE%83/">常见循环比较</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/05/%E5%B8%B8%E7%94%A8%E7%9A%84JS%E4%BB%A3%E7%A0%81%E7%AE%80%E5%86%99/">常用的JS代码简写</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">PRETTYw.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

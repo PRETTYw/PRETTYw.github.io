@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="newblog design by hexo"><title>框架模式介绍 | PRETTYw</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 5.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">框架模式介绍</h1><a id="logo" href="/.">PRETTYw</a><p class="description">Get a life and Move on</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/tags/"><i class="fa fa-tag"> 标签</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">框架模式介绍</h1><div class="post-meta">2020-10-03<span> | </span><span class="category"><a href="/categories/technology/">technology</a></span></div><a class="disqus-comment-count" data-disqus-identifier="2020/10/03/框架模式介绍/" href="/2020/10/03/%E6%A1%86%E6%9E%B6%E6%A8%A1%E5%BC%8F%E4%BB%8B%E7%BB%8D/#disqus_thread"></a><div class="post-content"><ul>
+<li>MVC,MVP,MVVM是三种常见的前端架构模式</li>
+<li>通过分离关注点来改进代码组织方式</li>
+</ul>
+<h2 id="MVC模式-（Model-View-Controller）"><a href="#MVC模式-（Model-View-Controller）" class="headerlink" title="MVC模式 （Model-View-Controller）"></a>MVC模式 （Model-View-Controller）</h2><ul>
+<li>视图（view）：用户界面</li>
+<li>控制器（controller）：业务逻辑</li>
+<li>模型（model）：数据保存</li>
+<li>通信模式<blockquote>
+<p>view传送指令到controller<br>controller完成业务逻辑后 要求model改变状态<br>model将新的数据发送到view 用户得到反馈</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>用户操作-&gt;View（负责接收用户的输入操作）-&gt;Controller（业务逻辑处理）-&gt;Model（数据持久化）-&gt;View（将结果反馈给View）</p>
+</blockquote>
+<ul>
+<li>所有通信都是单向的</li>
+<li>实例：backBoneJS<blockquote>
+<p>用户可以向 View 发送指令（DOM 事件），再由 View 直接要求 Model 改变状态<br>用户也可以直接向 Controller 发送指令（改变 URL 触发 hashChange 事件），再由 Controller 发送给 View<br>Controller 非常薄，只起到路由的作用，而 View 非常厚，业务逻辑都部署在 View</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="MVP模式"><a href="#MVP模式" class="headerlink" title="MVP模式"></a>MVP模式</h2><ul>
+<li>将controller改名成presenter 同时改变了通信方向</li>
+<li>目的就是为了完全切断View跟Model之间的联系，由Presenter充当桥梁，做到View-Model之间通信的完全隔离。</li>
+</ul>
+<blockquote>
+<p>控件组成的页面充当View，实体数据库操作充当Model，而View和Model之间的控件数据绑定操作则属于Presenter。控件事件的处理可以通过自定义的IView接口实现，而View和IView都将对Presenter负责。</p>
+</blockquote>
+<ul>
+<li>通信模式<blockquote>
+<p>各部分之间的通信，都是双向的<br>View 与 Model 不发生联系，都通过 Presenter 传递<br>View 非常薄，不部署任何业务逻辑，称为”被动视图”（Passive View），即没有任何主动性，而 Presenter非常厚，所有逻辑都部署在那里。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="MVVM模式"><a href="#MVVM模式" class="headerlink" title="MVVM模式"></a>MVVM模式</h2><ul>
+<li>MVVM 模式将 Presenter 改名为 ViewModel 基本上与 MVP 模式完全一致</li>
+<li>唯一的区别是，它采用双向绑定（data-binding）：View的变动，自动反映在 ViewModel 反之亦然</li>
+<li>核心是数据模型数据双向绑定</li>
+<li>在View和Model之间没有联系，通过ViewModel进行交互，而且Model和ViewModel之间的交互是双向的，因此视图的数据的变化会同时修改数据源，而数据源数据的变化也会立即反应到View上。</li>
+</ul>
+<p>#博客笔记/框架</p>
+</div><div id="donate"><link rel="stylesheet" type="text/css" href="/css/donate.css"><script type="text/javascript" src="/js/donate.js" successtext="复制成功!"></script><a class="pos-f tr3" id="github" target="_blank" rel="noopener" href="https://github.com/Kaiyuan/donate-page" arget="_blank" title="Github"></a><div id="DonateText">Donate</div><ul class="list pos-f" id="donateBox"><li id="ps">没有开启任何Donate选项!</li></ul><div class="pos-f left-100" id="QRBox"><div id="MainBox"></div></div></div><div class="tags"><a href="/tags/Javascript/"><i class="fa fa-tag"></i>Javascript</a></div><div class="post-nav"><a class="pre" href="/2020/10/10/%E5%89%8D%E7%AB%AFSSR/">前端SSR</a><a class="next" href="/2020/09/26/%E4%B8%80%E9%81%93%E5%85%B3%E4%BA%8EPromise%E7%9A%84%E9%A2%98/">一道关于Promise的题</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论（请确保 Disqus 可以正常加载）</button></div><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'https://prettyw.github.io/2020/10/03/框架模式介绍/';
+    this.page.identifier = '2020/10/03/框架模式介绍/';
+    this.page.title = '框架模式介绍';
+  };</script><script type="text/javascript" id="disqus-lazy-load-script">$.ajax({
+url: 'https://disqus.com/next/config.json',
+timeout: 2500,
+type: 'GET',
+success: function(){
+  var d = document;
+  var s = d.createElement('script');
+  s.src = '//prettyw.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', + new Date());
+  (d.head || d.body).appendChild(s);
+  $('.disqus_click_btn').css('display', 'none');
+},
+error: function() {
+  $('.disqus_click_btn').css('display', 'block');
+}
+});</script><script type="text/javascript" id="disqus-click-load">$('.btn_click_load').click(() => {  //click to load comments
+    (() => { // DON'T EDIT BELOW THIS LINE
+        var d = document;
+        var s = d.createElement('script');
+        s.src = '//prettyw.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', + new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+    $('.disqus_click_btn').css('display','none');
+});</script><script type="text/javascript" id="disqus-count-script">$(function() {
+     var xhr = new XMLHttpRequest();
+     xhr.open('GET', '//disqus.com/next/config.json', true);
+     xhr.timeout = 2500;
+     xhr.onreadystatechange = function () {
+       if (xhr.readyState === 4 && xhr.status === 200) {
+         $('.post-meta .post-comments-count').show();
+         var s = document.createElement('script');
+         s.id = 'dsq-count-scr';
+         s.src = 'https://prettyw.disqus.com/count.js';
+         s.async = true;
+         (document.head || document.body).appendChild(s);
+       }
+     };
+     xhr.ontimeout = function () { xhr.abort(); };
+     xhr.send(null);
+   });
+</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="https://prettyw.github.io"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/emotion/">emotion</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E9%9A%94%E5%A3%81/">前端隔壁</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/11/15/vue%E4%B8%AD%E4%BD%BF%E7%94%A8fetch%E8%AF%B7%E6%B1%82%E6%95%B0%E6%8D%AE%E6%96%B9%E6%B3%95%E6%95%B4%E7%90%86/">vue中使用fetch请求数据方法整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/24/%E6%95%B4%E7%90%86VUE%E4%BC%A0%E5%80%BC%E6%96%B9%E5%BC%8F/">整理VUE传值方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/17/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B/">前端工程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/10/%E5%89%8D%E7%AB%AFSSR/">前端SSR</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/03/%E6%A1%86%E6%9E%B6%E6%A8%A1%E5%BC%8F%E4%BB%8B%E7%BB%8D/">框架模式介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/26/%E4%B8%80%E9%81%93%E5%85%B3%E4%BA%8EPromise%E7%9A%84%E9%A2%98/">一道关于Promise的题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/19/%E5%89%8D%E7%AB%AF%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80/">前端通信基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/13/%E5%B8%B8%E7%94%A8%E7%9A%84%E7%BB%88%E6%AD%A2%E7%AC%A6%E6%93%8D%E4%BD%9C/">常用的终止符操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/05/%E5%B8%B8%E8%A7%81%E5%BE%AA%E7%8E%AF%E6%AF%94%E8%BE%83/">常见循环比较</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/05/%E5%B8%B8%E7%94%A8%E7%9A%84JS%E4%BB%A3%E7%A0%81%E7%AE%80%E5%86%99/">常用的JS代码简写</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">PRETTYw.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

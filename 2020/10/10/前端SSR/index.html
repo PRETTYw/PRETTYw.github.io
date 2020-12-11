@@ -1,0 +1,89 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="newblog design by hexo"><title>前端SSR | PRETTYw</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 5.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">前端SSR</h1><a id="logo" href="/.">PRETTYw</a><p class="description">Get a life and Move on</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/tags/"><i class="fa fa-tag"> 标签</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">前端SSR</h1><div class="post-meta">2020-10-10<span> | </span><span class="category"><a href="/categories/technology/">technology</a></span></div><a class="disqus-comment-count" data-disqus-identifier="2020/10/10/前端SSR/" href="/2020/10/10/%E5%89%8D%E7%AB%AFSSR/#disqus_thread"></a><div class="post-content"><ul>
+<li>前端框架的渲染都属于浏览器渲染  设计的初衷是为了减轻服务器压力。</li>
+<li>但是当首页加载js资源的时候 会导致加载过慢，也不利于seo优化 因为网络蜘蛛不会爬异步加载的网站</li>
+<li>把网站升级成ssr  有利于提高渲染效率和seo优化</li>
+</ul>
+<h2 id="SSR"><a href="#SSR" class="headerlink" title="SSR"></a>SSR</h2><ul>
+<li>Server side rendering  服务器端渲染</li>
+<li>服务器将每个要展示的页面都运行完成后，将整个相应流传给浏览器。所有的运算都在服务器端完成，浏览器只需要解析HTML</li>
+</ul>
+<h2 id="单页面应用"><a href="#单页面应用" class="headerlink" title="单页面应用"></a>单页面应用</h2><ul>
+<li>前端写页面和逻辑 后端处理数据</li>
+<li>优点：：<blockquote>
+<p>页面之间的切换非常快<br>一定程度上减少了后端服务器的压力（不用管页面逻辑和渲染）<br>后端程序只需要提供API，完全不用管客户端到底是Web界面还是手机等</p>
+</blockquote>
+</li>
+<li>缺点：：<blockquote>
+<p>首屏打开速度很慢 因为用户首次加载需要先下载SPA框架及应用程序的代码 然后再渲染页面<br>不利于SEO</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="解决方法-SSR"><a href="#解决方法-SSR" class="headerlink" title="解决方法 - SSR"></a>解决方法 - SSR</h2><ul>
+<li>在普通的单页面应用中，一般是将框架及网站页面的代码发送到浏览器，然后在浏览器中生成和操作dom，这也是在同等带宽和网络延迟下比传统的后端生成HTML然后再发送到浏览器要更慢的原因</li>
+<li>其实也可以将单页面应用直接打包发送到服务器端。在服务器端渲染出html 然后再发送给浏览器  但是这样的页面还不具备页面交互的功能，所以需要和spa框架结合，在浏览器中生成可以交互的应用程序  这样不仅解决了首屏加载慢的问题，也能有效的解决seo不好的问题</li>
+<li>优点：：<blockquote>
+<p>为了得到更快的相应时间，我们并不需要等待所有的文件都下载完成，只要能显示出比较完整的页面就可以 将seo的关键信息直接在后台渲染成html页面。这样就保证了搜索引擎的爬虫都可以拿到关键的数据</p>
+</blockquote>
+</li>
+<li>缺点：：<blockquote>
+<p>相对于仅仅需要提供静态文件的服务器，SSR中使用的渲染程序自然会占用更多的CPU和内存资源<br>一些常用的浏览器API可能无法正常使用，比如window、docment和alert等，如果使用的话需要对运行的环境加以判断<br>开发调试会有一些麻烦，因为涉及了浏览器及服务器，对于SPA的一些组件的生命周期的管理会变得复杂<br>可能会由于某些因素导致服务器端渲染的结果与浏览器端的结果不一致。</p>
+</blockquote>
+</li>
+<li>常见的SSR框架<blockquote>
+<p>React 的 <a target="_blank" rel="noopener" href="https://nextjs.org/">Next</a><br>Vue.js 的 <a target="_blank" rel="noopener" href="https://nuxtjs.org/">Nuxt</a></p>
+</blockquote>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>前后端分离降低了前端和后端的耦合度，提高了开发效率；</li>
+<li>SPA是前后端分离中前端的一种解决方案；</li>
+<li>SEO对与很多网站很重要而普通的SPA又不利于SEO；</li>
+<li>SSR的出现一定程度上解决了SPA中首屏慢的问题，又极大减少了普通SPA对于SEO的不利影响</li>
+</ul>
+<p>#博客笔记/框架</p>
+</div><div id="donate"><link rel="stylesheet" type="text/css" href="/css/donate.css"><script type="text/javascript" src="/js/donate.js" successtext="复制成功!"></script><a class="pos-f tr3" id="github" target="_blank" rel="noopener" href="https://github.com/Kaiyuan/donate-page" arget="_blank" title="Github"></a><div id="DonateText">Donate</div><ul class="list pos-f" id="donateBox"><li id="ps">没有开启任何Donate选项!</li></ul><div class="pos-f left-100" id="QRBox"><div id="MainBox"></div></div></div><div class="tags"><a href="/tags/Javascript/"><i class="fa fa-tag"></i>Javascript</a></div><div class="post-nav"><a class="pre" href="/2020/10/17/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B/">前端工程</a><a class="next" href="/2020/10/03/%E6%A1%86%E6%9E%B6%E6%A8%A1%E5%BC%8F%E4%BB%8B%E7%BB%8D/">框架模式介绍</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论（请确保 Disqus 可以正常加载）</button></div><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'https://prettyw.github.io/2020/10/10/前端SSR/';
+    this.page.identifier = '2020/10/10/前端SSR/';
+    this.page.title = '前端SSR';
+  };</script><script type="text/javascript" id="disqus-lazy-load-script">$.ajax({
+url: 'https://disqus.com/next/config.json',
+timeout: 2500,
+type: 'GET',
+success: function(){
+  var d = document;
+  var s = d.createElement('script');
+  s.src = '//prettyw.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', + new Date());
+  (d.head || d.body).appendChild(s);
+  $('.disqus_click_btn').css('display', 'none');
+},
+error: function() {
+  $('.disqus_click_btn').css('display', 'block');
+}
+});</script><script type="text/javascript" id="disqus-click-load">$('.btn_click_load').click(() => {  //click to load comments
+    (() => { // DON'T EDIT BELOW THIS LINE
+        var d = document;
+        var s = d.createElement('script');
+        s.src = '//prettyw.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', + new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+    $('.disqus_click_btn').css('display','none');
+});</script><script type="text/javascript" id="disqus-count-script">$(function() {
+     var xhr = new XMLHttpRequest();
+     xhr.open('GET', '//disqus.com/next/config.json', true);
+     xhr.timeout = 2500;
+     xhr.onreadystatechange = function () {
+       if (xhr.readyState === 4 && xhr.status === 200) {
+         $('.post-meta .post-comments-count').show();
+         var s = document.createElement('script');
+         s.id = 'dsq-count-scr';
+         s.src = 'https://prettyw.disqus.com/count.js';
+         s.async = true;
+         (document.head || document.body).appendChild(s);
+       }
+     };
+     xhr.ontimeout = function () { xhr.abort(); };
+     xhr.send(null);
+   });
+</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="https://prettyw.github.io"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/emotion/">emotion</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E9%9A%94%E5%A3%81/">前端隔壁</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/11/15/vue%E4%B8%AD%E4%BD%BF%E7%94%A8fetch%E8%AF%B7%E6%B1%82%E6%95%B0%E6%8D%AE%E6%96%B9%E6%B3%95%E6%95%B4%E7%90%86/">vue中使用fetch请求数据方法整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/24/%E6%95%B4%E7%90%86VUE%E4%BC%A0%E5%80%BC%E6%96%B9%E5%BC%8F/">整理VUE传值方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/17/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B/">前端工程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/10/%E5%89%8D%E7%AB%AFSSR/">前端SSR</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/03/%E6%A1%86%E6%9E%B6%E6%A8%A1%E5%BC%8F%E4%BB%8B%E7%BB%8D/">框架模式介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/26/%E4%B8%80%E9%81%93%E5%85%B3%E4%BA%8EPromise%E7%9A%84%E9%A2%98/">一道关于Promise的题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/19/%E5%89%8D%E7%AB%AF%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80/">前端通信基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/13/%E5%B8%B8%E7%94%A8%E7%9A%84%E7%BB%88%E6%AD%A2%E7%AC%A6%E6%93%8D%E4%BD%9C/">常用的终止符操作</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/05/%E5%B8%B8%E8%A7%81%E5%BE%AA%E7%8E%AF%E6%AF%94%E8%BE%83/">常见循环比较</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/05/%E5%B8%B8%E7%94%A8%E7%9A%84JS%E4%BB%A3%E7%A0%81%E7%AE%80%E5%86%99/">常用的JS代码简写</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">PRETTYw.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
