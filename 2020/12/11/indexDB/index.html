@@ -1,0 +1,152 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="newblog design by hexo"><title>indexDB | PRETTYw</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 5.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">indexDB</h1><a id="logo" href="/.">PRETTYw</a><p class="description">Get a life and Move on</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/tags/"><i class="fa fa-tag"> 标签</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">indexDB</h1><div class="post-meta">2020-12-11<span> | </span><span class="category"><a href="/categories/%E5%89%8D%E7%AB%AF%E9%9A%94%E5%A3%81/">前端隔壁</a></span></div><a class="disqus-comment-count" data-disqus-identifier="2020/12/11/indexDB/" href="/2020/12/11/indexDB/#disqus_thread"></a><div class="post-content"><h2 id="同源策略及限制"><a href="#同源策略及限制" class="headerlink" title="同源策略及限制"></a>同源策略及限制</h2><ul>
+<li>客户端存储方案：浏览器提供的本地数据库</li>
+<li>可以被网页脚本创建和操作 提供查找接口 还能建立索引</li>
+<li>不属于关系型数据库（不支持SQL查询）</li>
+<li>存储空间比localStorage大得多 不少于250mb</li>
+<li>不支持操作dom<blockquote>
+<p>indexedDB 具有以下特点</p>
+</blockquote>
+</li>
+</ul>
+<ol>
+<li>键值对储存：对象仓库存放数据</li>
+<li>异步：不影响进程 localstorage是同步操作</li>
+<li>支持事务：即出现失败后 整个事务就都取消 数据库会回滚到事务发生前状态 不存在只改写一部分数据的情况</li>
+<li>同源限制：每一个数据库对应创建他的域名 网页只能访问自身域名下的数据库</li>
+<li>储存空间大：最少都有250mb 没有上限</li>
+<li>支持二进制储存：不仅可以储存字符串 还可以储存二进制数据 （arrayBuffer 和 blob对象）</li>
+</ol>
+<ul>
+<li><p>数据库</p>
+<blockquote>
+<p>一系列相关数据的容器 每个域名都可以新建任意多个数据库<br>有版本概念 同一个时刻 只能有一个版本的数据库存在 如果要修改数据库结构 只能通过升级数据库版本完成</p>
+</blockquote>
+</li>
+<li><p>对象仓库</p>
+<blockquote>
+<p>每个数据库包含若干个对象仓库 类似于关系型数据库的表格</p>
+</blockquote>
+</li>
+<li><p>数据记录</p>
+<blockquote>
+<p>对象仓库保存的是数据记录 每条记录类似于关系型数据库的行<br>只有主键和数据体两部分<br>主键用来建立默认的索引<br>数据体可以是任意数据类型 不限于对象</p>
+</blockquote>
+</li>
+<li><p>索引</p>
+<blockquote>
+<p>为了加速数据检索 可以在对象仓库中 为不同的属性建立索引</p>
+</blockquote>
+</li>
+<li><p>事务</p>
+<blockquote>
+<p>数据记录的增删改查都要通过事务完成 事务对象提供error / abort / complete 三个事件 用来监听操作结果</p>
+</blockquote>
+</li>
+<li><p>操作流程</p>
+</li>
+</ul>
+<ol>
+<li>打开数据库<blockquote>
+<p>打开数据库</p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> request = <span class="built_in">window</span>.indexedDB.open(databaseName, version);</span><br><span class="line"><span class="comment">// 第一个参数是字符串，表示数据库的名字。如果指定的数据库不存在，就会新建数据库</span></span><br><span class="line"><span class="comment">// 第二个参数是整数，表示数据库的版本。如果省略，打开已有数据库时，默认为当前版本；新建数据库时，默认为1</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>方法返回一个IDBRequest对象 对象通过三种事件error / success / upgradeneeded 处理打开数据库的操作结果</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 打开数据库失败</span></span><br><span class="line">request.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;数据库打开报错&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 成功打开数据库</span></span><br><span class="line"><span class="keyword">var</span> db;</span><br><span class="line">request.onsuccess = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  db = request.result;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&#x27;数据库打开成功&#x27;</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>新建数据库<blockquote>
+<p>新建会让版本从无到有 会触发upgradeneeded事件</p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">request.onupgradeneeded = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  db = event.target.result;</span><br><span class="line">  <span class="keyword">var</span> objectStore;</span><br><span class="line">  <span class="keyword">if</span> (!db.objectStoreNames.contains(<span class="string">&#x27;person&#x27;</span>)) &#123;</span><br><span class="line">    objectStore = db.createObjectStore(<span class="string">&#x27;person&#x27;</span>, &#123; <span class="attr">keyPath</span>: <span class="string">&#x27;id&#x27;</span> &#125;);</span><br><span class="line">    objectStore.createIndex(<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;name&#x27;</span>, &#123; <span class="attr">unique</span>: <span class="literal">false</span> &#125;);</span><br><span class="line">    objectStore.createIndex(<span class="string">&#x27;email&#x27;</span>, <span class="string">&#x27;email&#x27;</span>, &#123; <span class="attr">unique</span>: <span class="literal">true</span> &#125;);Ï</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// IDBObject.createIndex()的三个参数分别为索引名称、索引所在的属性、配置对象</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>新增数据<blockquote>
+<p>向对象仓库写入数据记录 需要通过事务完成 异步操作</p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> request = db.transaction([<span class="string">&#x27;person&#x27;</span>], <span class="string">&#x27;readwrite&#x27;</span>)</span><br><span class="line">    .objectStore(<span class="string">&#x27;person&#x27;</span>)</span><br><span class="line">    .add(&#123; <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">name</span>: <span class="string">&#x27;张三&#x27;</span>, <span class="attr">age</span>: <span class="number">24</span>, <span class="attr">email</span>: <span class="string">&#x27;zhangsan@example.com&#x27;</span> &#125;);</span><br><span class="line"></span><br><span class="line">  request.onsuccess = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;数据写入成功&#x27;</span>);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  request.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;数据写入失败&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">add();</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>读取数据<blockquote>
+<p>通过事务完成</p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">read</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">   <span class="keyword">var</span> transaction = db.transaction([<span class="string">&#x27;person&#x27;</span>]);</span><br><span class="line">   <span class="keyword">var</span> objectStore = transaction.objectStore(<span class="string">&#x27;person&#x27;</span>);</span><br><span class="line">   <span class="keyword">var</span> request = objectStore.get(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">   request.onerror = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">     <span class="built_in">console</span>.log(<span class="string">&#x27;事务失败&#x27;</span>);</span><br><span class="line">   &#125;;</span><br><span class="line"></span><br><span class="line">   request.onsuccess = <span class="function"><span class="keyword">function</span>(<span class="params"> event</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (request.result) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;Name: &#x27;</span> + request.result.name);</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;Age: &#x27;</span> + request.result.age);</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;Email: &#x27;</span> + request.result.email);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;未获得数据记录&#x27;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">read();</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>遍历数据<blockquote>
+<p>使用指针对象 IDBCursor 异步操作</p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">readAll</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> objectStore = db.transaction(<span class="string">&#x27;person&#x27;</span>).objectStore(<span class="string">&#x27;person&#x27;</span>);</span><br><span class="line"></span><br><span class="line">   objectStore.openCursor().onsuccess = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">     <span class="keyword">var</span> cursor = event.target.result;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (cursor) &#123;</span><br><span class="line">       <span class="built_in">console</span>.log(<span class="string">&#x27;Id: &#x27;</span> + cursor.key);</span><br><span class="line">       <span class="built_in">console</span>.log(<span class="string">&#x27;Name: &#x27;</span> + cursor.value.name);</span><br><span class="line">       <span class="built_in">console</span>.log(<span class="string">&#x27;Age: &#x27;</span> + cursor.value.age);</span><br><span class="line">       <span class="built_in">console</span>.log(<span class="string">&#x27;Email: &#x27;</span> + cursor.value.email);</span><br><span class="line">       cursor.continue();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&#x27;没有更多数据了！&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">readAll();</span><br><span class="line"><span class="string">``</span><span class="string">` </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">6. 更新数据</span></span><br><span class="line"><span class="string">&gt; 使用IDBObject.put()方法 自动更新</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">`</span><span class="string">``</span>javascript</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">update</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> request = db.transaction([<span class="string">&#x27;person&#x27;</span>], <span class="string">&#x27;readwrite&#x27;</span>)</span><br><span class="line">    .objectStore(<span class="string">&#x27;person&#x27;</span>)</span><br><span class="line">    .put(&#123; <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">name</span>: <span class="string">&#x27;李四&#x27;</span>, <span class="attr">age</span>: <span class="number">35</span>, <span class="attr">email</span>: <span class="string">&#x27;lisi@example.com&#x27;</span> &#125;);</span><br><span class="line"></span><br><span class="line">  request.onsuccess = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;数据更新成功&#x27;</span>);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  request.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;数据更新失败&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">update();</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>删除数据<blockquote>
+<p>IDBObjectStore.delete()方法用于删除记录。</p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">remove</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> request = db.transaction([<span class="string">&#x27;person&#x27;</span>], <span class="string">&#x27;readwrite&#x27;</span>)</span><br><span class="line">    .objectStore(<span class="string">&#x27;person&#x27;</span>)</span><br><span class="line">    .delete(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">  request.onsuccess = <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;数据删除成功&#x27;</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">remove();</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li>使用索引<blockquote>
+<p>搜索任意字段 从任意字段拿到数据记录<br>如果不建立索引，默认只能搜索主键（即从主键取值）</p>
+</blockquote>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">objectStore.createIndex(<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;name&#x27;</span>, &#123; <span class="attr">unique</span>: <span class="literal">false</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> transaction = db.transaction([<span class="string">&#x27;person&#x27;</span>], <span class="string">&#x27;readonly&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> store = transaction.objectStore(<span class="string">&#x27;person&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> index = store.index(<span class="string">&#x27;name&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> request = index.get(<span class="string">&#x27;李四&#x27;</span>);</span><br><span class="line"></span><br><span class="line">request.onsuccess = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> result = e.target.result;</span><br><span class="line">  <span class="keyword">if</span> (result) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</div><div id="donate"><link rel="stylesheet" type="text/css" href="/css/donate.css"><script type="text/javascript" src="/js/donate.js" successtext="复制成功!"></script><a class="pos-f tr3" id="github" target="_blank" rel="noopener" href="https://github.com/Kaiyuan/donate-page" arget="_blank" title="Github"></a><div id="DonateText">Donate</div><ul class="list pos-f" id="donateBox"><li id="ps">没有开启任何Donate选项!</li></ul><div class="pos-f left-100" id="QRBox"><div id="MainBox"></div></div></div><div class="tags"><a href="/tags/Javascript/"><i class="fa fa-tag"></i>Javascript</a></div><div class="post-nav"><a class="pre" href="/2020/12/11/%E6%B7%B1%E5%85%A5HTTP/">深入HTTP</a><a class="next" href="/2020/11/15/vue%E4%B8%AD%E4%BD%BF%E7%94%A8fetch%E8%AF%B7%E6%B1%82%E6%95%B0%E6%8D%AE%E6%96%B9%E6%B3%95%E6%95%B4%E7%90%86/">vue中使用fetch请求数据方法整理</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论（请确保 Disqus 可以正常加载）</button></div><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'https://prettyw.github.io/2020/12/11/indexDB/';
+    this.page.identifier = '2020/12/11/indexDB/';
+    this.page.title = 'indexDB';
+  };</script><script type="text/javascript" id="disqus-lazy-load-script">$.ajax({
+url: 'https://disqus.com/next/config.json',
+timeout: 2500,
+type: 'GET',
+success: function(){
+  var d = document;
+  var s = d.createElement('script');
+  s.src = '//prettyw.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', + new Date());
+  (d.head || d.body).appendChild(s);
+  $('.disqus_click_btn').css('display', 'none');
+},
+error: function() {
+  $('.disqus_click_btn').css('display', 'block');
+}
+});</script><script type="text/javascript" id="disqus-click-load">$('.btn_click_load').click(() => {  //click to load comments
+    (() => { // DON'T EDIT BELOW THIS LINE
+        var d = document;
+        var s = d.createElement('script');
+        s.src = '//prettyw.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', + new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+    $('.disqus_click_btn').css('display','none');
+});</script><script type="text/javascript" id="disqus-count-script">$(function() {
+     var xhr = new XMLHttpRequest();
+     xhr.open('GET', '//disqus.com/next/config.json', true);
+     xhr.timeout = 2500;
+     xhr.onreadystatechange = function () {
+       if (xhr.readyState === 4 && xhr.status === 200) {
+         $('.post-meta .post-comments-count').show();
+         var s = document.createElement('script');
+         s.id = 'dsq-count-scr';
+         s.src = 'https://prettyw.disqus.com/count.js';
+         s.async = true;
+         (document.head || document.body).appendChild(s);
+       }
+     };
+     xhr.ontimeout = function () { xhr.abort(); };
+     xhr.send(null);
+   });
+</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="https://prettyw.github.io"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/emotion/">emotion</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/technology/">technology</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%89%8D%E7%AB%AF%E9%9A%94%E5%A3%81/">前端隔壁</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/12/26/python%E5%AD%A6%E4%B9%A0/">python学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/12/ES%E6%96%B0%E7%89%B9%E6%80%A7%E6%95%B4%E7%90%86/">ES新特性整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/11/%E6%B7%B1%E5%85%A5HTTP/">深入HTTP</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/11/indexDB/">indexDB</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/11/15/vue%E4%B8%AD%E4%BD%BF%E7%94%A8fetch%E8%AF%B7%E6%B1%82%E6%95%B0%E6%8D%AE%E6%96%B9%E6%B3%95%E6%95%B4%E7%90%86/">vue中使用fetch请求数据方法整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/24/%E6%95%B4%E7%90%86VUE%E4%BC%A0%E5%80%BC%E6%96%B9%E5%BC%8F/">整理VUE传值方式</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/17/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B/">前端工程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/10/%E5%89%8D%E7%AB%AFSSR/">前端SSR</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/06/Promises:A+%E8%A7%84%E8%8C%83/">Promises/A+规范</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/03/%E6%A1%86%E6%9E%B6%E6%A8%A1%E5%BC%8F%E4%BB%8B%E7%BB%8D/">框架模式介绍</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a href="/." rel="nofollow">PRETTYw.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
